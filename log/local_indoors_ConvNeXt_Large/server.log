@@ -1,0 +1,1100 @@
+Configuring torch to use deterministic behaviors.
+parallel approach select
+constraint_latency False
+starting ParallelCollaborativeInference server on 0.0.0.0:12345
+server for client: model ConvNeXt_188M initial complete.
+server: start profile forward
+server: recv init input from client
+Input size 0.5746MB
+Forwarding for 0(+10 warmup and 10 repeat) times for initialization.
+Forward of the original model takes average 0.0089s.
+pickle.dumps size to time poly: 
+            2
+-3.416e-18 x + 5.661e-10 x + 2.093e-05
+pickle.loads size to time poly: 
+            2
+-1.238e-17 x + 6.231e-10 x - 0.0001028
+Output size 0.0042MB
+Hooked forward takes average 0.0090s.
+Using torch.profiler for op profile
+
+Warming up for 10 runs...
+
+Measuring per operator execution time for 10 runs...
+
+Measuring end to end computation time for 10 runs...
+Operator records (align ops time with factor 0.5781): 
+0 _start: input_from: [], output_to: [1], output_shapes: [torch.Size([1, 3, 224, 224])], local dim: 3, masked: False, align_shape: False, :0 excluded: False ops_time: 0.00ms;  accu_time 0.0000s
+1 conv2d: input_from: [0], output_to: [2], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0000s
+2 permute: input_from: [1], output_to: [3], output_shapes: [torch.Size([1, 56, 56, 192])], local dim: 2, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0000s
+3 layer_norm: input_from: [2], output_to: [4], output_shapes: [torch.Size([1, 56, 56, 192])], local dim: 2, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0001s
+4 permute: input_from: [3], output_to: [5, 13], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0001s
+5 conv2d: input_from: [4], output_to: [6], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.06ms;  accu_time 0.0001s
+6 permute: input_from: [5], output_to: [7], output_shapes: [torch.Size([1, 56, 56, 192])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0001s
+7 layer_norm: input_from: [6], output_to: [8], output_shapes: [torch.Size([1, 56, 56, 192])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.03ms;  accu_time 0.0002s
+8 linear: input_from: [7], output_to: [9], output_shapes: [torch.Size([1, 56, 56, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.06ms;  accu_time 0.0002s
+9 gelu: input_from: [8], output_to: [10], output_shapes: [torch.Size([1, 56, 56, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0002s
+10 linear: input_from: [9], output_to: [11], output_shapes: [torch.Size([1, 56, 56, 192])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0003s
+11 permute: input_from: [10], output_to: [12], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0003s
+12 mul: input_from: [11], output_to: [13, 14, 22], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0003s
+13 add_: input_from: [12, 4], output_to: [14, 22], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0003s
+14 conv2d: input_from: [12, 13], output_to: [15], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0004s
+15 permute: input_from: [14], output_to: [16], output_shapes: [torch.Size([1, 56, 56, 192])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0004s
+16 layer_norm: input_from: [15], output_to: [17], output_shapes: [torch.Size([1, 56, 56, 192])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.03ms;  accu_time 0.0004s
+17 linear: input_from: [16], output_to: [18], output_shapes: [torch.Size([1, 56, 56, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.06ms;  accu_time 0.0005s
+18 gelu: input_from: [17], output_to: [19], output_shapes: [torch.Size([1, 56, 56, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0005s
+19 linear: input_from: [18], output_to: [20], output_shapes: [torch.Size([1, 56, 56, 192])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0005s
+20 permute: input_from: [19], output_to: [21], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0005s
+21 mul: input_from: [20], output_to: [22, 23, 31], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0005s
+22 add_: input_from: [21, 12, 13], output_to: [23, 31], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0005s
+23 conv2d: input_from: [21, 22], output_to: [24], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0006s
+24 permute: input_from: [23], output_to: [25], output_shapes: [torch.Size([1, 56, 56, 192])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0006s
+25 layer_norm: input_from: [24], output_to: [26], output_shapes: [torch.Size([1, 56, 56, 192])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.03ms;  accu_time 0.0006s
+26 linear: input_from: [25], output_to: [27], output_shapes: [torch.Size([1, 56, 56, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.06ms;  accu_time 0.0007s
+27 gelu: input_from: [26], output_to: [28], output_shapes: [torch.Size([1, 56, 56, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0007s
+28 linear: input_from: [27], output_to: [29], output_shapes: [torch.Size([1, 56, 56, 192])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0008s
+29 permute: input_from: [28], output_to: [30], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0008s
+30 mul: input_from: [29], output_to: [31, 32], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0008s
+31 add_: input_from: [30, 21, 22], output_to: [32], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0008s
+32 permute: input_from: [30, 31], output_to: [33], output_shapes: [torch.Size([1, 56, 56, 192])], local dim: 2, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0008s
+33 layer_norm: input_from: [32], output_to: [34], output_shapes: [torch.Size([1, 56, 56, 192])], local dim: 2, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.03ms;  accu_time 0.0008s
+34 permute: input_from: [33], output_to: [35], output_shapes: [torch.Size([1, 192, 56, 56])], local dim: 3, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0008s
+35 conv2d: input_from: [34], output_to: [36, 44], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.06ms;  accu_time 0.0009s
+36 conv2d: input_from: [35], output_to: [37], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.03ms;  accu_time 0.0009s
+37 permute: input_from: [36], output_to: [38], output_shapes: [torch.Size([1, 28, 28, 384])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0009s
+38 layer_norm: input_from: [37], output_to: [39], output_shapes: [torch.Size([1, 28, 28, 384])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0010s
+39 linear: input_from: [38], output_to: [40], output_shapes: [torch.Size([1, 28, 28, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.06ms;  accu_time 0.0010s
+40 gelu: input_from: [39], output_to: [41], output_shapes: [torch.Size([1, 28, 28, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0010s
+41 linear: input_from: [40], output_to: [42], output_shapes: [torch.Size([1, 28, 28, 384])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0011s
+42 permute: input_from: [41], output_to: [43], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0011s
+43 mul: input_from: [42], output_to: [44, 45, 53], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0011s
+44 add_: input_from: [43, 35], output_to: [45, 53], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0011s
+45 conv2d: input_from: [43, 44], output_to: [46], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0012s
+46 permute: input_from: [45], output_to: [47], output_shapes: [torch.Size([1, 28, 28, 384])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0012s
+47 layer_norm: input_from: [46], output_to: [48], output_shapes: [torch.Size([1, 28, 28, 384])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0012s
+48 linear: input_from: [47], output_to: [49], output_shapes: [torch.Size([1, 28, 28, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.06ms;  accu_time 0.0013s
+49 gelu: input_from: [48], output_to: [50], output_shapes: [torch.Size([1, 28, 28, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0013s
+50 linear: input_from: [49], output_to: [51], output_shapes: [torch.Size([1, 28, 28, 384])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0013s
+51 permute: input_from: [50], output_to: [52], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0013s
+52 mul: input_from: [51], output_to: [53, 54, 62], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0013s
+53 add_: input_from: [52, 43, 44], output_to: [54, 62], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0013s
+54 conv2d: input_from: [52, 53], output_to: [55], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0014s
+55 permute: input_from: [54], output_to: [56], output_shapes: [torch.Size([1, 28, 28, 384])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0014s
+56 layer_norm: input_from: [55], output_to: [57], output_shapes: [torch.Size([1, 28, 28, 384])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0014s
+57 linear: input_from: [56], output_to: [58], output_shapes: [torch.Size([1, 28, 28, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.06ms;  accu_time 0.0015s
+58 gelu: input_from: [57], output_to: [59], output_shapes: [torch.Size([1, 28, 28, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0015s
+59 linear: input_from: [58], output_to: [60], output_shapes: [torch.Size([1, 28, 28, 384])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0016s
+60 permute: input_from: [59], output_to: [61], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0016s
+61 mul: input_from: [60], output_to: [62, 63], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0016s
+62 add_: input_from: [61, 52, 53], output_to: [63], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0016s
+63 permute: input_from: [61, 62], output_to: [64], output_shapes: [torch.Size([1, 28, 28, 384])], local dim: 2, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0016s
+64 layer_norm: input_from: [63], output_to: [65], output_shapes: [torch.Size([1, 28, 28, 384])], local dim: 2, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.03ms;  accu_time 0.0016s
+65 permute: input_from: [64], output_to: [66], output_shapes: [torch.Size([1, 384, 28, 28])], local dim: 3, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0016s
+66 conv2d: input_from: [65], output_to: [67, 75], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.06ms;  accu_time 0.0017s
+67 conv2d: input_from: [66], output_to: [68], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0017s
+68 permute: input_from: [67], output_to: [69], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0017s
+69 layer_norm: input_from: [68], output_to: [70], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0018s
+70 linear: input_from: [69], output_to: [71], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0018s
+71 gelu: input_from: [70], output_to: [72], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0019s
+72 linear: input_from: [71], output_to: [73], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0019s
+73 permute: input_from: [72], output_to: [74], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0019s
+74 mul: input_from: [73], output_to: [75, 76, 84], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0019s
+75 add_: input_from: [74, 66], output_to: [76, 84], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0019s
+76 conv2d: input_from: [74, 75], output_to: [77], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0020s
+77 permute: input_from: [76], output_to: [78], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0020s
+78 layer_norm: input_from: [77], output_to: [79], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0020s
+79 linear: input_from: [78], output_to: [80], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0021s
+80 gelu: input_from: [79], output_to: [81], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0021s
+81 linear: input_from: [80], output_to: [82], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0021s
+82 permute: input_from: [81], output_to: [83], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0021s
+83 mul: input_from: [82], output_to: [84, 85, 93], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0021s
+84 add_: input_from: [83, 74, 75], output_to: [85, 93], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0022s
+85 conv2d: input_from: [83, 84], output_to: [86], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0022s
+86 permute: input_from: [85], output_to: [87], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0022s
+87 layer_norm: input_from: [86], output_to: [88], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0022s
+88 linear: input_from: [87], output_to: [89], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0023s
+89 gelu: input_from: [88], output_to: [90], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0023s
+90 linear: input_from: [89], output_to: [91], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0024s
+91 permute: input_from: [90], output_to: [92], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0024s
+92 mul: input_from: [91], output_to: [93, 94, 102], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0024s
+93 add_: input_from: [92, 83, 84], output_to: [94, 102], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0024s
+94 conv2d: input_from: [92, 93], output_to: [95], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0024s
+95 permute: input_from: [94], output_to: [96], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0024s
+96 layer_norm: input_from: [95], output_to: [97], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0025s
+97 linear: input_from: [96], output_to: [98], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0026s
+98 gelu: input_from: [97], output_to: [99], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0026s
+99 linear: input_from: [98], output_to: [100], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0026s
+100 permute: input_from: [99], output_to: [101], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0026s
+101 mul: input_from: [100], output_to: [102, 103, 111], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0026s
+102 add_: input_from: [101, 92, 93], output_to: [103, 111], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0026s
+103 conv2d: input_from: [101, 102], output_to: [104], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0027s
+104 permute: input_from: [103], output_to: [105], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0027s
+105 layer_norm: input_from: [104], output_to: [106], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0027s
+106 linear: input_from: [105], output_to: [107], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0028s
+107 gelu: input_from: [106], output_to: [108], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0028s
+108 linear: input_from: [107], output_to: [109], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0028s
+109 permute: input_from: [108], output_to: [110], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0028s
+110 mul: input_from: [109], output_to: [111, 112, 120], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0028s
+111 add_: input_from: [110, 101, 102], output_to: [112, 120], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0029s
+112 conv2d: input_from: [110, 111], output_to: [113], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0029s
+113 permute: input_from: [112], output_to: [114], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0029s
+114 layer_norm: input_from: [113], output_to: [115], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0029s
+115 linear: input_from: [114], output_to: [116], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0030s
+116 gelu: input_from: [115], output_to: [117], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0030s
+117 linear: input_from: [116], output_to: [118], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0031s
+118 permute: input_from: [117], output_to: [119], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0031s
+119 mul: input_from: [118], output_to: [120, 121, 129], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0031s
+120 add_: input_from: [119, 110, 111], output_to: [121, 129], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0031s
+121 conv2d: input_from: [119, 120], output_to: [122], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0031s
+122 permute: input_from: [121], output_to: [123], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0031s
+123 layer_norm: input_from: [122], output_to: [124], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0032s
+124 linear: input_from: [123], output_to: [125], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0033s
+125 gelu: input_from: [124], output_to: [126], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0033s
+126 linear: input_from: [125], output_to: [127], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0033s
+127 permute: input_from: [126], output_to: [128], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0033s
+128 mul: input_from: [127], output_to: [129, 130, 138], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0033s
+129 add_: input_from: [128, 119, 120], output_to: [130, 138], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0033s
+130 conv2d: input_from: [128, 129], output_to: [131], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0034s
+131 permute: input_from: [130], output_to: [132], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0034s
+132 layer_norm: input_from: [131], output_to: [133], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0034s
+133 linear: input_from: [132], output_to: [134], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0035s
+134 gelu: input_from: [133], output_to: [135], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0035s
+135 linear: input_from: [134], output_to: [136], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0035s
+136 permute: input_from: [135], output_to: [137], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0035s
+137 mul: input_from: [136], output_to: [138, 139, 147], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0035s
+138 add_: input_from: [137, 128, 129], output_to: [139, 147], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0036s
+139 conv2d: input_from: [137, 138], output_to: [140], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0036s
+140 permute: input_from: [139], output_to: [141], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0036s
+141 layer_norm: input_from: [140], output_to: [142], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0036s
+142 linear: input_from: [141], output_to: [143], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0037s
+143 gelu: input_from: [142], output_to: [144], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0037s
+144 linear: input_from: [143], output_to: [145], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0038s
+145 permute: input_from: [144], output_to: [146], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0038s
+146 mul: input_from: [145], output_to: [147, 148, 156], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0038s
+147 add_: input_from: [146, 137, 138], output_to: [148, 156], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0038s
+148 conv2d: input_from: [146, 147], output_to: [149], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0038s
+149 permute: input_from: [148], output_to: [150], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0038s
+150 layer_norm: input_from: [149], output_to: [151], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0039s
+151 linear: input_from: [150], output_to: [152], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0040s
+152 gelu: input_from: [151], output_to: [153], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0040s
+153 linear: input_from: [152], output_to: [154], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0040s
+154 permute: input_from: [153], output_to: [155], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0040s
+155 mul: input_from: [154], output_to: [156, 157, 165], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0040s
+156 add_: input_from: [155, 146, 147], output_to: [157, 165], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0040s
+157 conv2d: input_from: [155, 156], output_to: [158], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0041s
+158 permute: input_from: [157], output_to: [159], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0041s
+159 layer_norm: input_from: [158], output_to: [160], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0041s
+160 linear: input_from: [159], output_to: [161], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0042s
+161 gelu: input_from: [160], output_to: [162], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0042s
+162 linear: input_from: [161], output_to: [163], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0042s
+163 permute: input_from: [162], output_to: [164], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0042s
+164 mul: input_from: [163], output_to: [165, 166, 174], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0042s
+165 add_: input_from: [164, 155, 156], output_to: [166, 174], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0043s
+166 conv2d: input_from: [164, 165], output_to: [167], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0043s
+167 permute: input_from: [166], output_to: [168], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0043s
+168 layer_norm: input_from: [167], output_to: [169], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0043s
+169 linear: input_from: [168], output_to: [170], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0044s
+170 gelu: input_from: [169], output_to: [171], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0044s
+171 linear: input_from: [170], output_to: [172], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0045s
+172 permute: input_from: [171], output_to: [173], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0045s
+173 mul: input_from: [172], output_to: [174, 175, 183], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0045s
+174 add_: input_from: [173, 164, 165], output_to: [175, 183], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0045s
+175 conv2d: input_from: [173, 174], output_to: [176], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0045s
+176 permute: input_from: [175], output_to: [177], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0045s
+177 layer_norm: input_from: [176], output_to: [178], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0046s
+178 linear: input_from: [177], output_to: [179], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0047s
+179 gelu: input_from: [178], output_to: [180], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0047s
+180 linear: input_from: [179], output_to: [181], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0047s
+181 permute: input_from: [180], output_to: [182], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0047s
+182 mul: input_from: [181], output_to: [183, 184, 192], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0047s
+183 add_: input_from: [182, 173, 174], output_to: [184, 192], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0047s
+184 conv2d: input_from: [182, 183], output_to: [185], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0048s
+185 permute: input_from: [184], output_to: [186], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0048s
+186 layer_norm: input_from: [185], output_to: [187], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0048s
+187 linear: input_from: [186], output_to: [188], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0049s
+188 gelu: input_from: [187], output_to: [189], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0049s
+189 linear: input_from: [188], output_to: [190], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0049s
+190 permute: input_from: [189], output_to: [191], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0049s
+191 mul: input_from: [190], output_to: [192, 193, 201], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0049s
+192 add_: input_from: [191, 182, 183], output_to: [193, 201], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0050s
+193 conv2d: input_from: [191, 192], output_to: [194], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0050s
+194 permute: input_from: [193], output_to: [195], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0050s
+195 layer_norm: input_from: [194], output_to: [196], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0050s
+196 linear: input_from: [195], output_to: [197], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0051s
+197 gelu: input_from: [196], output_to: [198], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0051s
+198 linear: input_from: [197], output_to: [199], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0052s
+199 permute: input_from: [198], output_to: [200], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0052s
+200 mul: input_from: [199], output_to: [201, 202, 210], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0052s
+201 add_: input_from: [200, 191, 192], output_to: [202, 210], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0052s
+202 conv2d: input_from: [200, 201], output_to: [203], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0052s
+203 permute: input_from: [202], output_to: [204], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0052s
+204 layer_norm: input_from: [203], output_to: [205], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0053s
+205 linear: input_from: [204], output_to: [206], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0053s
+206 gelu: input_from: [205], output_to: [207], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0054s
+207 linear: input_from: [206], output_to: [208], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0054s
+208 permute: input_from: [207], output_to: [209], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0054s
+209 mul: input_from: [208], output_to: [210, 211, 219], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0054s
+210 add_: input_from: [209, 200, 201], output_to: [211, 219], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0054s
+211 conv2d: input_from: [209, 210], output_to: [212], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0055s
+212 permute: input_from: [211], output_to: [213], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0055s
+213 layer_norm: input_from: [212], output_to: [214], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0055s
+214 linear: input_from: [213], output_to: [215], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0056s
+215 gelu: input_from: [214], output_to: [216], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0056s
+216 linear: input_from: [215], output_to: [217], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0056s
+217 permute: input_from: [216], output_to: [218], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0056s
+218 mul: input_from: [217], output_to: [219, 220, 228], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0056s
+219 add_: input_from: [218, 209, 210], output_to: [220, 228], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0057s
+220 conv2d: input_from: [218, 219], output_to: [221], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0057s
+221 permute: input_from: [220], output_to: [222], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0057s
+222 layer_norm: input_from: [221], output_to: [223], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0057s
+223 linear: input_from: [222], output_to: [224], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0058s
+224 gelu: input_from: [223], output_to: [225], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0058s
+225 linear: input_from: [224], output_to: [226], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0059s
+226 permute: input_from: [225], output_to: [227], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0059s
+227 mul: input_from: [226], output_to: [228, 229, 237], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0059s
+228 add_: input_from: [227, 218, 219], output_to: [229, 237], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0059s
+229 conv2d: input_from: [227, 228], output_to: [230], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0059s
+230 permute: input_from: [229], output_to: [231], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0059s
+231 layer_norm: input_from: [230], output_to: [232], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0060s
+232 linear: input_from: [231], output_to: [233], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0060s
+233 gelu: input_from: [232], output_to: [234], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0061s
+234 linear: input_from: [233], output_to: [235], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0061s
+235 permute: input_from: [234], output_to: [236], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0061s
+236 mul: input_from: [235], output_to: [237, 238, 246], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0061s
+237 add_: input_from: [236, 227, 228], output_to: [238, 246], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0061s
+238 conv2d: input_from: [236, 237], output_to: [239], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0062s
+239 permute: input_from: [238], output_to: [240], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0062s
+240 layer_norm: input_from: [239], output_to: [241], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0062s
+241 linear: input_from: [240], output_to: [242], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0063s
+242 gelu: input_from: [241], output_to: [243], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0063s
+243 linear: input_from: [242], output_to: [244], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0063s
+244 permute: input_from: [243], output_to: [245], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0063s
+245 mul: input_from: [244], output_to: [246, 247, 255], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0063s
+246 add_: input_from: [245, 236, 237], output_to: [247, 255], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0064s
+247 conv2d: input_from: [245, 246], output_to: [248], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0064s
+248 permute: input_from: [247], output_to: [249], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0064s
+249 layer_norm: input_from: [248], output_to: [250], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0064s
+250 linear: input_from: [249], output_to: [251], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0065s
+251 gelu: input_from: [250], output_to: [252], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0065s
+252 linear: input_from: [251], output_to: [253], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0066s
+253 permute: input_from: [252], output_to: [254], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0066s
+254 mul: input_from: [253], output_to: [255, 256, 264], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0066s
+255 add_: input_from: [254, 245, 246], output_to: [256, 264], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0066s
+256 conv2d: input_from: [254, 255], output_to: [257], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0066s
+257 permute: input_from: [256], output_to: [258], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0066s
+258 layer_norm: input_from: [257], output_to: [259], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0067s
+259 linear: input_from: [258], output_to: [260], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0068s
+260 gelu: input_from: [259], output_to: [261], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0068s
+261 linear: input_from: [260], output_to: [262], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0068s
+262 permute: input_from: [261], output_to: [263], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0068s
+263 mul: input_from: [262], output_to: [264, 265, 273], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0068s
+264 add_: input_from: [263, 254, 255], output_to: [265, 273], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0068s
+265 conv2d: input_from: [263, 264], output_to: [266], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0069s
+266 permute: input_from: [265], output_to: [267], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0069s
+267 layer_norm: input_from: [266], output_to: [268], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0069s
+268 linear: input_from: [267], output_to: [269], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0070s
+269 gelu: input_from: [268], output_to: [270], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0070s
+270 linear: input_from: [269], output_to: [271], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0070s
+271 permute: input_from: [270], output_to: [272], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0070s
+272 mul: input_from: [271], output_to: [273, 274, 282], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0070s
+273 add_: input_from: [272, 263, 264], output_to: [274, 282], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0071s
+274 conv2d: input_from: [272, 273], output_to: [275], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0071s
+275 permute: input_from: [274], output_to: [276], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0071s
+276 layer_norm: input_from: [275], output_to: [277], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0071s
+277 linear: input_from: [276], output_to: [278], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0072s
+278 gelu: input_from: [277], output_to: [279], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0072s
+279 linear: input_from: [278], output_to: [280], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0073s
+280 permute: input_from: [279], output_to: [281], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0073s
+281 mul: input_from: [280], output_to: [282, 283, 291], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0073s
+282 add_: input_from: [281, 272, 273], output_to: [283, 291], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0073s
+283 conv2d: input_from: [281, 282], output_to: [284], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0073s
+284 permute: input_from: [283], output_to: [285], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0073s
+285 layer_norm: input_from: [284], output_to: [286], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0074s
+286 linear: input_from: [285], output_to: [287], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0075s
+287 gelu: input_from: [286], output_to: [288], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0075s
+288 linear: input_from: [287], output_to: [289], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0075s
+289 permute: input_from: [288], output_to: [290], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0075s
+290 mul: input_from: [289], output_to: [291, 292, 300], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0075s
+291 add_: input_from: [290, 281, 282], output_to: [292, 300], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0075s
+292 conv2d: input_from: [290, 291], output_to: [293], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0076s
+293 permute: input_from: [292], output_to: [294], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0076s
+294 layer_norm: input_from: [293], output_to: [295], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0076s
+295 linear: input_from: [294], output_to: [296], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0077s
+296 gelu: input_from: [295], output_to: [297], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0077s
+297 linear: input_from: [296], output_to: [298], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0077s
+298 permute: input_from: [297], output_to: [299], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0077s
+299 mul: input_from: [298], output_to: [300, 301, 309], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0077s
+300 add_: input_from: [299, 290, 291], output_to: [301, 309], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0078s
+301 conv2d: input_from: [299, 300], output_to: [302], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0078s
+302 permute: input_from: [301], output_to: [303], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0078s
+303 layer_norm: input_from: [302], output_to: [304], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0079s
+304 linear: input_from: [303], output_to: [305], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0079s
+305 gelu: input_from: [304], output_to: [306], output_shapes: [torch.Size([1, 14, 14, 3072])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0079s
+306 linear: input_from: [305], output_to: [307], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.05ms;  accu_time 0.0080s
+307 permute: input_from: [306], output_to: [308], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0080s
+308 mul: input_from: [307], output_to: [309, 310], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0080s
+309 add_: input_from: [308, 299, 300], output_to: [310], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0080s
+310 permute: input_from: [308, 309], output_to: [311], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0080s
+311 layer_norm: input_from: [310], output_to: [312], output_shapes: [torch.Size([1, 14, 14, 768])], local dim: 2, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.03ms;  accu_time 0.0080s
+312 permute: input_from: [311], output_to: [313], output_shapes: [torch.Size([1, 768, 14, 14])], local dim: 3, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0081s
+313 conv2d: input_from: [312], output_to: [314, 322], output_shapes: [torch.Size([1, 1536, 7, 7])], local dim: 3, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0081s
+314 conv2d: input_from: [313], output_to: [315], output_shapes: [torch.Size([1, 1536, 7, 7])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0081s
+315 permute: input_from: [314], output_to: [316], output_shapes: [torch.Size([1, 7, 7, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0082s
+316 layer_norm: input_from: [315], output_to: [317], output_shapes: [torch.Size([1, 7, 7, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0082s
+317 linear: input_from: [316], output_to: [318], output_shapes: [torch.Size([1, 7, 7, 6144])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0083s
+318 gelu: input_from: [317], output_to: [319], output_shapes: [torch.Size([1, 7, 7, 6144])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0083s
+319 linear: input_from: [318], output_to: [320], output_shapes: [torch.Size([1, 7, 7, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.06ms;  accu_time 0.0083s
+320 permute: input_from: [319], output_to: [321], output_shapes: [torch.Size([1, 1536, 7, 7])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0083s
+321 mul: input_from: [320], output_to: [322, 323, 331], output_shapes: [torch.Size([1, 1536, 7, 7])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0083s
+322 add_: input_from: [321, 313], output_to: [323, 331], output_shapes: [torch.Size([1, 1536, 7, 7])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0083s
+323 conv2d: input_from: [321, 322], output_to: [324], output_shapes: [torch.Size([1, 1536, 7, 7])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.03ms;  accu_time 0.0084s
+324 permute: input_from: [323], output_to: [325], output_shapes: [torch.Size([1, 7, 7, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0084s
+325 layer_norm: input_from: [324], output_to: [326], output_shapes: [torch.Size([1, 7, 7, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0084s
+326 linear: input_from: [325], output_to: [327], output_shapes: [torch.Size([1, 7, 7, 6144])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0085s
+327 gelu: input_from: [326], output_to: [328], output_shapes: [torch.Size([1, 7, 7, 6144])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0085s
+328 linear: input_from: [327], output_to: [329], output_shapes: [torch.Size([1, 7, 7, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.06ms;  accu_time 0.0086s
+329 permute: input_from: [328], output_to: [330], output_shapes: [torch.Size([1, 1536, 7, 7])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0086s
+330 mul: input_from: [329], output_to: [331, 332, 340], output_shapes: [torch.Size([1, 1536, 7, 7])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0086s
+331 add_: input_from: [330, 321, 322], output_to: [332, 340], output_shapes: [torch.Size([1, 1536, 7, 7])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0086s
+332 conv2d: input_from: [330, 331], output_to: [333], output_shapes: [torch.Size([1, 1536, 7, 7])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0086s
+333 permute: input_from: [332], output_to: [334], output_shapes: [torch.Size([1, 7, 7, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0086s
+334 layer_norm: input_from: [333], output_to: [335], output_shapes: [torch.Size([1, 7, 7, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.04ms;  accu_time 0.0087s
+335 linear: input_from: [334], output_to: [336], output_shapes: [torch.Size([1, 7, 7, 6144])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.07ms;  accu_time 0.0087s
+336 gelu: input_from: [335], output_to: [337], output_shapes: [torch.Size([1, 7, 7, 6144])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0087s
+337 linear: input_from: [336], output_to: [338], output_shapes: [torch.Size([1, 7, 7, 1536])], local dim: 2, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.06ms;  accu_time 0.0088s
+338 permute: input_from: [337], output_to: [339], output_shapes: [torch.Size([1, 1536, 7, 7])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0088s
+339 mul: input_from: [338], output_to: [340, 341], output_shapes: [torch.Size([1, 1536, 7, 7])], local dim: 3, masked: True, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0088s
+340 add_: input_from: [339, 330, 331], output_to: [341], output_shapes: [torch.Size([1, 1536, 7, 7])], local dim: 3, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.00ms;  accu_time 0.0088s
+341 adaptive_avg_pool2d: input_from: [339, 340], output_to: [342], output_shapes: [torch.Size([1, 1536, 1, 1])], local dim: None, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.03ms;  accu_time 0.0088s
+342 permute: input_from: [341], output_to: [343], output_shapes: [torch.Size([1, 1, 1, 1536])], local dim: None, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0089s
+343 layer_norm: input_from: [342], output_to: [344], output_shapes: [torch.Size([1, 1, 1, 1536])], local dim: None, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.03ms;  accu_time 0.0089s
+344 permute: input_from: [343], output_to: [345], output_shapes: [torch.Size([1, 1536, 1, 1])], local dim: None, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.02ms;  accu_time 0.0089s
+345 flatten: input_from: [344], output_to: [346], output_shapes: [torch.Size([1, 1536])], local dim: None, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.01ms;  accu_time 0.0089s
+346 linear: input_from: [345], output_to: [347], output_shapes: [torch.Size([1, 1000])], local dim: None, masked: False, align_shape: False, /home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/hook_tensor.py:259 excluded: False ops_time: 0.03ms;  accu_time 0.0089s
+347 _end: input_from: [346], output_to: [], output_shapes: [torch.Size([1, 1000])], local dim: None, masked: False, align_shape: False, ours:0 excluded: False ops_time: 0.00ms;  accu_time 0.0089s
+total 348 ops (filtered from 348 ops); time 0.0089s (aligned by 0.5781
+
+server: init forward complete.
+server: profile forward complete
+Server computation time: 0.0089s; client computaiton time: 0.2179s
+
+Parallel approach: local. Adding hooks for each bw...
+bw 0:  Skip computation from 0 to 347 || 
+bw 1:  Skip computation from 0 to 347 || 
+bw 2:  Skip computation from 0 to 347 || 
+bw 3:  Skip computation from 0 to 347 || 
+bw 4:  Skip computation from 0 to 347 || 
+bw 5:  Skip computation from 0 to 347 || 
+bw 6:  Skip computation from 0 to 347 || 
+bw 7:  Skip computation from 0 to 347 || 
+bw 8:  Skip computation from 0 to 347 || 
+bw 9:  Skip computation from 0 to 347 || 
+bw 10:  Skip computation from 0 to 347 || 
+bw 11:  Skip computation from 0 to 347 || 
+bw 12:  Skip computation from 0 to 347 || 
+bw 13:  Skip computation from 0 to 347 || 
+bw 14:  Skip computation from 0 to 347 || 
+bw 15:  Skip computation from 0 to 347 || 
+bw 16:  Skip computation from 0 to 347 || 
+bw 17:  Skip computation from 0 to 347 || 
+bw 18:  Skip computation from 0 to 347 || 
+bw 19:  Skip computation from 0 to 347 || 
+bw 20:  Skip computation from 0 to 347 || 
+bw 21:  Skip computation from 0 to 347 || 
+bw 22:  Skip computation from 0 to 347 || 
+bw 23:  Skip computation from 0 to 347 || 
+bw 24:  Skip computation from 0 to 347 || 
+bw 25:  Skip computation from 0 to 347 || 
+bw 26:  Skip computation from 0 to 347 || 
+bw 27:  Skip computation from 0 to 347 || 
+bw 28:  Skip computation from 0 to 347 || 
+bw 29:  Skip computation from 0 to 347 || 
+Starting background process: bash /home/user/project/ParallelCollaborativeInference/exp_utils/apply_tc.sh /home/user/project/ParallelCollaborativeInference/exp_utils/indoors.txt
+bandwidth 11.147MBps
+bandwidth 13.099375MBps
+All init complete.
+
+0th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0083s, inner_forward_dur 0.0082s communicated_bytes 0.0000MB
+1th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0026s, inner_forward_dur 0.0026s communicated_bytes 0.0000MB
+2th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+3th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0047s, inner_forward_dur 0.0046s communicated_bytes 0.0000MB
+4th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+5th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0099s, inner_forward_dur 0.0097s communicated_bytes 0.0000MB
+6th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+7th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0025s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+8th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+9th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0030s, inner_forward_dur 0.0030s communicated_bytes 0.0000MB
+10th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0063s, inner_forward_dur 0.0062s communicated_bytes 0.0000MB
+11th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+12th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+13th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0063s, inner_forward_dur 0.0062s communicated_bytes 0.0000MB
+14th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0027s, inner_forward_dur 0.0027s communicated_bytes 0.0000MB
+15th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+16th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0046s, inner_forward_dur 0.0045s communicated_bytes 0.0000MB
+17th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+18th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0048s, inner_forward_dur 0.0047s communicated_bytes 0.0000MB
+19th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0046s, inner_forward_dur 0.0045s communicated_bytes 0.0000MB
+20th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0057s, inner_forward_dur 0.0057s communicated_bytes 0.0000MB
+21th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0099s, inner_forward_dur 0.0098s communicated_bytes 0.0000MB
+22th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+23th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0027s, inner_forward_dur 0.0027s communicated_bytes 0.0000MB
+24th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0031s, inner_forward_dur 0.0031s communicated_bytes 0.0000MB
+25th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+26th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0033s, inner_forward_dur 0.0033s communicated_bytes 0.0000MB
+27th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+28th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0025s, inner_forward_dur 0.0025s communicated_bytes 0.0000MB
+29th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+30th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+31th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0047s, inner_forward_dur 0.0047s communicated_bytes 0.0000MB
+32th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0066s, inner_forward_dur 0.0065s communicated_bytes 0.0000MB
+33th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0079s, inner_forward_dur 0.0079s communicated_bytes 0.0000MB
+34th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+35th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0121s, inner_forward_dur 0.0120s communicated_bytes 0.0000MB
+36th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+37th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0065s, inner_forward_dur 0.0064s communicated_bytes 0.0000MB
+38th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0080s, inner_forward_dur 0.0080s communicated_bytes 0.0000MB
+39th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0052s, inner_forward_dur 0.0051s communicated_bytes 0.0000MB
+40th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0045s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+41th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0098s, inner_forward_dur 0.0097s communicated_bytes 0.0000MB
+42th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+43th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0036s communicated_bytes 0.0000MB
+44th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0065s, inner_forward_dur 0.0064s communicated_bytes 0.0000MB
+45th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+46th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+47th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0033s, inner_forward_dur 0.0032s communicated_bytes 0.0000MB
+48th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0025s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+49th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+50th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0105s, inner_forward_dur 0.0104s communicated_bytes 0.0000MB
+51th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0055s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+52th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+53th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0100s, inner_forward_dur 0.0098s communicated_bytes 0.0000MB
+54th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+55th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0059s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+56th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0100s, inner_forward_dur 0.0098s communicated_bytes 0.0000MB
+57th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0033s, inner_forward_dur 0.0032s communicated_bytes 0.0000MB
+58th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+59th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+60th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0052s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+61th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0099s, inner_forward_dur 0.0098s communicated_bytes 0.0000MB
+62th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0027s, inner_forward_dur 0.0026s communicated_bytes 0.0000MB
+63th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+64th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0031s, inner_forward_dur 0.0031s communicated_bytes 0.0000MB
+65th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+66th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0059s, inner_forward_dur 0.0058s communicated_bytes 0.0000MB
+67th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+68th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0034s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+69th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0048s, inner_forward_dur 0.0047s communicated_bytes 0.0000MB
+70th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0095s, inner_forward_dur 0.0094s communicated_bytes 0.0000MB
+71th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0079s, inner_forward_dur 0.0078s communicated_bytes 0.0000MB
+72th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0055s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+73th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+74th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+75th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+76th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0067s, inner_forward_dur 0.0066s communicated_bytes 0.0000MB
+77th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0099s, inner_forward_dur 0.0098s communicated_bytes 0.0000MB
+78th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0051s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+79th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0036s communicated_bytes 0.0000MB
+80th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+81th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+82th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0055s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+83th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+84th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+85th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0026s, inner_forward_dur 0.0026s communicated_bytes 0.0000MB
+86th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+87th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0031s, inner_forward_dur 0.0030s communicated_bytes 0.0000MB
+88th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+89th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+90th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0031s, inner_forward_dur 0.0031s communicated_bytes 0.0000MB
+91th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0051s, inner_forward_dur 0.0051s communicated_bytes 0.0000MB
+92th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+93th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+94th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+95th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0036s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+96th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0068s, inner_forward_dur 0.0067s communicated_bytes 0.0000MB
+97th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0067s, inner_forward_dur 0.0066s communicated_bytes 0.0000MB
+98th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0051s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+99th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0041s, inner_forward_dur 0.0040s communicated_bytes 0.0000MB
+100th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0037s communicated_bytes 0.0000MB
+101th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0036s communicated_bytes 0.0000MB
+102th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+103th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+104th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0049s, inner_forward_dur 0.0048s communicated_bytes 0.0000MB
+105th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+106th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+107th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0037s communicated_bytes 0.0000MB
+108th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+109th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0041s, inner_forward_dur 0.0041s communicated_bytes 0.0000MB
+110th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0036s communicated_bytes 0.0000MB
+111th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+112th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0040s, inner_forward_dur 0.0039s communicated_bytes 0.0000MB
+113th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0051s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+114th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+115th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+116th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+117th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+118th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+119th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+120th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+121th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+122th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+123th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0067s, inner_forward_dur 0.0066s communicated_bytes 0.0000MB
+124th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0039s, inner_forward_dur 0.0039s communicated_bytes 0.0000MB
+125th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+126th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+127th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0032s, inner_forward_dur 0.0031s communicated_bytes 0.0000MB
+128th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0059s, inner_forward_dur 0.0058s communicated_bytes 0.0000MB
+129th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0036s, inner_forward_dur 0.0036s communicated_bytes 0.0000MB
+130th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+131th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+132th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0055s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+133th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0060s communicated_bytes 0.0000MB
+134th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+135th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+136th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0020s, inner_forward_dur 0.0020s communicated_bytes 0.0000MB
+137th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+138th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0041s, inner_forward_dur 0.0040s communicated_bytes 0.0000MB
+139th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+140th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0060s communicated_bytes 0.0000MB
+141th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+142th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0064s, inner_forward_dur 0.0063s communicated_bytes 0.0000MB
+143th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0073s, inner_forward_dur 0.0072s communicated_bytes 0.0000MB
+144th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+145th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+146th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+147th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+148th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+149th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0060s communicated_bytes 0.0000MB
+150th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0034s, inner_forward_dur 0.0033s communicated_bytes 0.0000MB
+151th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+152th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0059s, inner_forward_dur 0.0058s communicated_bytes 0.0000MB
+153th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0036s, inner_forward_dur 0.0036s communicated_bytes 0.0000MB
+154th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+155th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0079s, inner_forward_dur 0.0078s communicated_bytes 0.0000MB
+156th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0026s, inner_forward_dur 0.0025s communicated_bytes 0.0000MB
+157th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+158th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0045s, inner_forward_dur 0.0045s communicated_bytes 0.0000MB
+159th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+160th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0027s, inner_forward_dur 0.0027s communicated_bytes 0.0000MB
+161th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+162th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+163th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+164th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0056s, inner_forward_dur 0.0055s communicated_bytes 0.0000MB
+165th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0060s communicated_bytes 0.0000MB
+166th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0045s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+167th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0065s, inner_forward_dur 0.0064s communicated_bytes 0.0000MB
+168th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0051s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+169th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0045s, inner_forward_dur 0.0045s communicated_bytes 0.0000MB
+170th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0045s, inner_forward_dur 0.0045s communicated_bytes 0.0000MB
+171th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0036s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+172th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0025s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+173th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0037s communicated_bytes 0.0000MB
+174th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+175th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+176th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+177th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0038s, inner_forward_dur 0.0037s communicated_bytes 0.0000MB
+178th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0046s, inner_forward_dur 0.0046s communicated_bytes 0.0000MB
+179th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+180th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0058s, inner_forward_dur 0.0058s communicated_bytes 0.0000MB
+181th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+182th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+183th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0040s, inner_forward_dur 0.0040s communicated_bytes 0.0000MB
+184th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+185th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0055s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+186th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0045s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+187th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0047s, inner_forward_dur 0.0047s communicated_bytes 0.0000MB
+188th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0098s, inner_forward_dur 0.0097s communicated_bytes 0.0000MB
+189th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+190th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0052s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+191th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0034s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+192th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+193th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0041s, inner_forward_dur 0.0041s communicated_bytes 0.0000MB
+194th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+195th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+196th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0028s, inner_forward_dur 0.0027s communicated_bytes 0.0000MB
+197th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+198th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+199th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+200th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0049s, inner_forward_dur 0.0048s communicated_bytes 0.0000MB
+201th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0067s, inner_forward_dur 0.0067s communicated_bytes 0.0000MB
+202th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+203th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+204th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+205th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+206th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0029s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+207th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+208th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+209th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+210th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+211th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+212th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+213th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+214th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0040s, inner_forward_dur 0.0039s communicated_bytes 0.0000MB
+215th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0055s, inner_forward_dur 0.0055s communicated_bytes 0.0000MB
+216th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0026s, inner_forward_dur 0.0025s communicated_bytes 0.0000MB
+217th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+218th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0096s, inner_forward_dur 0.0095s communicated_bytes 0.0000MB
+219th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0040s, inner_forward_dur 0.0039s communicated_bytes 0.0000MB
+220th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+221th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+222th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+223th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0034s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+224th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0067s, inner_forward_dur 0.0066s communicated_bytes 0.0000MB
+225th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+226th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+227th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+228th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+229th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+230th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0064s, inner_forward_dur 0.0063s communicated_bytes 0.0000MB
+231th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0096s, inner_forward_dur 0.0095s communicated_bytes 0.0000MB
+232th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0067s, inner_forward_dur 0.0066s communicated_bytes 0.0000MB
+233th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+234th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+235th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0060s communicated_bytes 0.0000MB
+236th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0033s, inner_forward_dur 0.0032s communicated_bytes 0.0000MB
+237th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+238th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+239th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0063s, inner_forward_dur 0.0062s communicated_bytes 0.0000MB
+240th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0039s, inner_forward_dur 0.0038s communicated_bytes 0.0000MB
+241th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0052s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+242th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0072s, inner_forward_dur 0.0071s communicated_bytes 0.0000MB
+243th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+244th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+245th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0060s communicated_bytes 0.0000MB
+246th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0045s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+247th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+248th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+249th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0060s communicated_bytes 0.0000MB
+250th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+251th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0056s, inner_forward_dur 0.0055s communicated_bytes 0.0000MB
+252th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0088s, inner_forward_dur 0.0087s communicated_bytes 0.0000MB
+253th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0039s, inner_forward_dur 0.0038s communicated_bytes 0.0000MB
+254th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+255th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0045s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+256th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0036s, inner_forward_dur 0.0036s communicated_bytes 0.0000MB
+257th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+258th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+259th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0046s, inner_forward_dur 0.0045s communicated_bytes 0.0000MB
+260th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+261th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+262th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0039s, inner_forward_dur 0.0038s communicated_bytes 0.0000MB
+263th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0067s, inner_forward_dur 0.0066s communicated_bytes 0.0000MB
+264th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+265th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0034s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+266th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0067s, inner_forward_dur 0.0066s communicated_bytes 0.0000MB
+267th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+268th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0059s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+269th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0026s, inner_forward_dur 0.0026s communicated_bytes 0.0000MB
+270th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+271th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0056s, inner_forward_dur 0.0055s communicated_bytes 0.0000MB
+272th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0020s communicated_bytes 0.0000MB
+273th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+274th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0028s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+275th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+276th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0064s, inner_forward_dur 0.0063s communicated_bytes 0.0000MB
+277th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0039s, inner_forward_dur 0.0039s communicated_bytes 0.0000MB
+278th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0066s, inner_forward_dur 0.0065s communicated_bytes 0.0000MB
+279th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0048s, inner_forward_dur 0.0047s communicated_bytes 0.0000MB
+280th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0026s, inner_forward_dur 0.0026s communicated_bytes 0.0000MB
+281th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+282th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0064s, inner_forward_dur 0.0064s communicated_bytes 0.0000MB
+283th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0096s, inner_forward_dur 0.0095s communicated_bytes 0.0000MB
+284th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+285th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0065s, inner_forward_dur 0.0064s communicated_bytes 0.0000MB
+286th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0038s, inner_forward_dur 0.0037s communicated_bytes 0.0000MB
+287th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+288th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0096s, inner_forward_dur 0.0095s communicated_bytes 0.0000MB
+289th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+290th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0064s, inner_forward_dur 0.0063s communicated_bytes 0.0000MB
+291th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0060s communicated_bytes 0.0000MB
+292th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+293th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+294th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0065s, inner_forward_dur 0.0064s communicated_bytes 0.0000MB
+295th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0064s, inner_forward_dur 0.0063s communicated_bytes 0.0000MB
+296th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+297th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0059s, inner_forward_dur 0.0058s communicated_bytes 0.0000MB
+298th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0027s, inner_forward_dur 0.0027s communicated_bytes 0.0000MB
+299th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0052s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+300th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0042s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+301th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+302th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+303th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0026s, inner_forward_dur 0.0026s communicated_bytes 0.0000MB
+304th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0095s, inner_forward_dur 0.0095s communicated_bytes 0.0000MB
+305th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+306th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+307th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+308th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0047s, inner_forward_dur 0.0047s communicated_bytes 0.0000MB
+309th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0049s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+310th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0020s communicated_bytes 0.0000MB
+311th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+312th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+313th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0038s, inner_forward_dur 0.0037s communicated_bytes 0.0000MB
+314th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+315th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0025s, inner_forward_dur 0.0025s communicated_bytes 0.0000MB
+316th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+317th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0042s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+318th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0055s, inner_forward_dur 0.0055s communicated_bytes 0.0000MB
+319th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+320th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0028s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+321th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+322th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+323th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0064s, inner_forward_dur 0.0063s communicated_bytes 0.0000MB
+324th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0056s, inner_forward_dur 0.0056s communicated_bytes 0.0000MB
+325th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+326th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0063s, inner_forward_dur 0.0062s communicated_bytes 0.0000MB
+327th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+328th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0036s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+329th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0060s communicated_bytes 0.0000MB
+330th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0076s, inner_forward_dur 0.0076s communicated_bytes 0.0000MB
+331th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0034s, inner_forward_dur 0.0033s communicated_bytes 0.0000MB
+332th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0034s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+333th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0036s communicated_bytes 0.0000MB
+334th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0064s, inner_forward_dur 0.0063s communicated_bytes 0.0000MB
+335th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0036s communicated_bytes 0.0000MB
+336th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+337th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0064s, inner_forward_dur 0.0063s communicated_bytes 0.0000MB
+338th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0047s, inner_forward_dur 0.0046s communicated_bytes 0.0000MB
+339th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0026s, inner_forward_dur 0.0025s communicated_bytes 0.0000MB
+340th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0059s, inner_forward_dur 0.0058s communicated_bytes 0.0000MB
+341th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0055s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+342th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0045s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+343th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0039s, inner_forward_dur 0.0039s communicated_bytes 0.0000MB
+344th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+345th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+346th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0026s, inner_forward_dur 0.0025s communicated_bytes 0.0000MB
+347th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+348th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+349th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+350th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0097s, inner_forward_dur 0.0096s communicated_bytes 0.0000MB
+351th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+352th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+353th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0065s, inner_forward_dur 0.0064s communicated_bytes 0.0000MB
+354th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0028s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+355th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0065s, inner_forward_dur 0.0064s communicated_bytes 0.0000MB
+356th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+357th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+358th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+359th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0040s, inner_forward_dur 0.0039s communicated_bytes 0.0000MB
+360th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+361th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0045s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+362th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0067s, inner_forward_dur 0.0066s communicated_bytes 0.0000MB
+363th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0028s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+364th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0056s, inner_forward_dur 0.0055s communicated_bytes 0.0000MB
+365th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0097s, inner_forward_dur 0.0096s communicated_bytes 0.0000MB
+366th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+367th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+368th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+369th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0052s, inner_forward_dur 0.0051s communicated_bytes 0.0000MB
+370th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0097s, inner_forward_dur 0.0096s communicated_bytes 0.0000MB
+371th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0041s, inner_forward_dur 0.0040s communicated_bytes 0.0000MB
+372th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+373th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0060s communicated_bytes 0.0000MB
+374th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0049s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+375th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0025s, inner_forward_dur 0.0025s communicated_bytes 0.0000MB
+376th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0064s, inner_forward_dur 0.0063s communicated_bytes 0.0000MB
+377th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0100s, inner_forward_dur 0.0098s communicated_bytes 0.0000MB
+378th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+379th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+380th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0026s, inner_forward_dur 0.0026s communicated_bytes 0.0000MB
+381th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0051s, inner_forward_dur 0.0051s communicated_bytes 0.0000MB
+382th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0047s, inner_forward_dur 0.0046s communicated_bytes 0.0000MB
+383th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0046s, inner_forward_dur 0.0045s communicated_bytes 0.0000MB
+384th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0048s, inner_forward_dur 0.0048s communicated_bytes 0.0000MB
+385th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0033s, inner_forward_dur 0.0033s communicated_bytes 0.0000MB
+386th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0049s, inner_forward_dur 0.0048s communicated_bytes 0.0000MB
+387th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+388th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+389th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0085s, inner_forward_dur 0.0084s communicated_bytes 0.0000MB
+390th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+391th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0058s, inner_forward_dur 0.0057s communicated_bytes 0.0000MB
+392th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+393th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0042s, inner_forward_dur 0.0041s communicated_bytes 0.0000MB
+394th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0067s, inner_forward_dur 0.0066s communicated_bytes 0.0000MB
+395th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+396th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+397th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+398th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0037s communicated_bytes 0.0000MB
+399th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0064s, inner_forward_dur 0.0063s communicated_bytes 0.0000MB
+400th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+401th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+402th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+403th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0065s, inner_forward_dur 0.0065s communicated_bytes 0.0000MB
+404th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+405th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+406th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0052s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+407th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+408th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+409th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+410th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0066s, inner_forward_dur 0.0065s communicated_bytes 0.0000MB
+411th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0039s, inner_forward_dur 0.0039s communicated_bytes 0.0000MB
+412th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+413th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+414th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+415th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+416th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0056s, inner_forward_dur 0.0056s communicated_bytes 0.0000MB
+417th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0081s, inner_forward_dur 0.0080s communicated_bytes 0.0000MB
+418th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+419th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0038s, inner_forward_dur 0.0037s communicated_bytes 0.0000MB
+420th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0051s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+421th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+422th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0081s, inner_forward_dur 0.0081s communicated_bytes 0.0000MB
+423th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+424th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+425th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+426th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+427th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+428th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0089s, inner_forward_dur 0.0088s communicated_bytes 0.0000MB
+429th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0037s communicated_bytes 0.0000MB
+430th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0067s, inner_forward_dur 0.0066s communicated_bytes 0.0000MB
+431th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+432th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0025s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+433th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0025s, inner_forward_dur 0.0025s communicated_bytes 0.0000MB
+434th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0127s, inner_forward_dur 0.0126s communicated_bytes 0.0000MB
+435th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+436th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0071s, inner_forward_dur 0.0070s communicated_bytes 0.0000MB
+437th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+438th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+439th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+440th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+441th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0052s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+442th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0098s, inner_forward_dur 0.0097s communicated_bytes 0.0000MB
+443th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+444th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0033s, inner_forward_dur 0.0032s communicated_bytes 0.0000MB
+445th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+446th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0066s, inner_forward_dur 0.0065s communicated_bytes 0.0000MB
+447th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0038s, inner_forward_dur 0.0038s communicated_bytes 0.0000MB
+448th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0026s, inner_forward_dur 0.0026s communicated_bytes 0.0000MB
+449th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0059s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+450th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0091s, inner_forward_dur 0.0090s communicated_bytes 0.0000MB
+451th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+452th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0029s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+453th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+454th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0036s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+455th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0051s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+456th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0097s, inner_forward_dur 0.0096s communicated_bytes 0.0000MB
+457th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0037s communicated_bytes 0.0000MB
+458th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0068s, inner_forward_dur 0.0068s communicated_bytes 0.0000MB
+459th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0030s, inner_forward_dur 0.0030s communicated_bytes 0.0000MB
+460th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+461th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+462th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+463th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+464th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+465th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0064s, inner_forward_dur 0.0063s communicated_bytes 0.0000MB
+466th server forward: bw 10, expected_exec_time 0.2179s, duration 0.0030s, inner_forward_dur 0.0030s communicated_bytes 0.0000MB
+467th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0052s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+468th server forward: bw 8, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+469th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+470th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+471th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+472th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0053s communicated_bytes 0.0000MB
+473th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0096s, inner_forward_dur 0.0096s communicated_bytes 0.0000MB
+474th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+475th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0091s, inner_forward_dur 0.0090s communicated_bytes 0.0000MB
+476th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0037s communicated_bytes 0.0000MB
+477th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0059s, inner_forward_dur 0.0058s communicated_bytes 0.0000MB
+478th server forward: bw 9, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+479th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0036s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+480th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+481th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0026s, inner_forward_dur 0.0026s communicated_bytes 0.0000MB
+482th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+483th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+484th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+485th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+486th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0025s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+487th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+488th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0027s, inner_forward_dur 0.0026s communicated_bytes 0.0000MB
+489th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0060s communicated_bytes 0.0000MB
+490th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0059s, inner_forward_dur 0.0058s communicated_bytes 0.0000MB
+491th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+492th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+493th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0097s, inner_forward_dur 0.0096s communicated_bytes 0.0000MB
+494th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0095s, inner_forward_dur 0.0094s communicated_bytes 0.0000MB
+495th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+496th server forward: bw 6, expected_exec_time 0.2179s, duration 0.0036s, inner_forward_dur 0.0036s communicated_bytes 0.0000MB
+497th server forward: bw 6, expected_exec_time 0.2179s, duration 0.0063s, inner_forward_dur 0.0062s communicated_bytes 0.0000MB
+498th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0065s, inner_forward_dur 0.0064s communicated_bytes 0.0000MB
+499th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+500th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0045s, inner_forward_dur 0.0045s communicated_bytes 0.0000MB
+501th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0042s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+502th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+503th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+504th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0073s, inner_forward_dur 0.0073s communicated_bytes 0.0000MB
+505th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+506th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0055s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+507th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0038s, inner_forward_dur 0.0038s communicated_bytes 0.0000MB
+508th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0036s communicated_bytes 0.0000MB
+509th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0064s, inner_forward_dur 0.0063s communicated_bytes 0.0000MB
+510th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0080s, inner_forward_dur 0.0079s communicated_bytes 0.0000MB
+511th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0055s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+512th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+513th server forward: bw 18, expected_exec_time 0.2179s, duration 0.0068s, inner_forward_dur 0.0067s communicated_bytes 0.0000MB
+514th server forward: bw 18, expected_exec_time 0.2179s, duration 0.0058s, inner_forward_dur 0.0058s communicated_bytes 0.0000MB
+515th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0080s, inner_forward_dur 0.0080s communicated_bytes 0.0000MB
+516th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0038s, inner_forward_dur 0.0038s communicated_bytes 0.0000MB
+517th server forward: bw 19, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+518th server forward: bw 19, expected_exec_time 0.2179s, duration 0.0100s, inner_forward_dur 0.0099s communicated_bytes 0.0000MB
+519th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0079s, inner_forward_dur 0.0078s communicated_bytes 0.0000MB
+520th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+521th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0037s communicated_bytes 0.0000MB
+522th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0063s, inner_forward_dur 0.0062s communicated_bytes 0.0000MB
+523th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0066s, inner_forward_dur 0.0065s communicated_bytes 0.0000MB
+524th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0076s, inner_forward_dur 0.0075s communicated_bytes 0.0000MB
+525th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+526th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+527th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0034s, inner_forward_dur 0.0033s communicated_bytes 0.0000MB
+528th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0094s, inner_forward_dur 0.0093s communicated_bytes 0.0000MB
+529th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0046s, inner_forward_dur 0.0046s communicated_bytes 0.0000MB
+530th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0057s, inner_forward_dur 0.0057s communicated_bytes 0.0000MB
+531th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+532th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0036s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+533th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+534th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0034s, inner_forward_dur 0.0031s communicated_bytes 0.0000MB
+535th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+536th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0097s, inner_forward_dur 0.0096s communicated_bytes 0.0000MB
+537th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0050s communicated_bytes 0.0000MB
+538th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+539th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+540th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+541th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+542th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0032s, inner_forward_dur 0.0031s communicated_bytes 0.0000MB
+543th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0039s, inner_forward_dur 0.0039s communicated_bytes 0.0000MB
+544th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+545th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+546th server forward: bw 19, expected_exec_time 0.2179s, duration 0.0060s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+547th server forward: bw 19, expected_exec_time 0.2179s, duration 0.0026s, inner_forward_dur 0.0025s communicated_bytes 0.0000MB
+548th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0037s, inner_forward_dur 0.0036s communicated_bytes 0.0000MB
+549th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+550th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0063s, inner_forward_dur 0.0062s communicated_bytes 0.0000MB
+551th server forward: bw 18, expected_exec_time 0.2179s, duration 0.0055s, inner_forward_dur 0.0055s communicated_bytes 0.0000MB
+552th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+553th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0059s, inner_forward_dur 0.0058s communicated_bytes 0.0000MB
+554th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0101s, inner_forward_dur 0.0100s communicated_bytes 0.0000MB
+555th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0032s, inner_forward_dur 0.0031s communicated_bytes 0.0000MB
+556th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+557th server forward: bw 11, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+558th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+559th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0099s, inner_forward_dur 0.0098s communicated_bytes 0.0000MB
+560th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0050s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+561th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+562th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0080s, inner_forward_dur 0.0080s communicated_bytes 0.0000MB
+563th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0059s, inner_forward_dur 0.0059s communicated_bytes 0.0000MB
+564th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+565th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0053s, inner_forward_dur 0.0052s communicated_bytes 0.0000MB
+566th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0049s, inner_forward_dur 0.0049s communicated_bytes 0.0000MB
+Process BandwidthMonitor:
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/estimate_bandwidth.py", line 88, in bandwidth_monitor
+    time.sleep(interval)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/multiprocessing/process.py", line 318, in _bootstrap
+    util._exit_function()
+  File "/usr/lib/python3.8/multiprocessing/util.py", line 334, in _exit_function
+    _run_finalizers(0)
+  File "/usr/lib/python3.8/multiprocessing/util.py", line 300, in _run_finalizers
+    finalizer()
+  File "/usr/lib/python3.8/multiprocessing/util.py", line 224, in __call__
+    res = self._callback(*self._args, **self._kwargs)
+  File "/usr/lib/python3.8/multiprocessing/managers.py", line 887, in _decref
+    conn = _Client(token.address, authkey=authkey)
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 508, in Client
+    answer_challenge(c, authkey)
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 752, in answer_challenge
+    message = connection.recv_bytes(256)         # reject large message
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 216, in recv_bytes
+    buf = self._recv_bytes(maxlength)
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 414, in _recv_bytes
+    buf = self._recv(4)
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 379, in _recv
+    chunk = read(handle, remaining)
+KeyboardInterrupt
+567th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0054s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+568th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+569th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0067s, inner_forward_dur 0.0066s communicated_bytes 0.0000MB
+570th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0040s, inner_forward_dur 0.0040s communicated_bytes 0.0000MB
+571th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+572th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+573th server forward: bw 12, expected_exec_time 0.2179s, duration 0.0059s, inner_forward_dur 0.0058s communicated_bytes 0.0000MB
+574th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0032s, inner_forward_dur 0.0032s communicated_bytes 0.0000MB
+575th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0052s, inner_forward_dur 0.0051s communicated_bytes 0.0000MB
+576th server forward: bw 14, expected_exec_time 0.2179s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+577th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0044s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+578th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+579th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0031s, inner_forward_dur 0.0030s communicated_bytes 0.0000MB
+580th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0056s, inner_forward_dur 0.0056s communicated_bytes 0.0000MB
+581th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0049s, inner_forward_dur 0.0048s communicated_bytes 0.0000MB
+582th server forward: bw 17, expected_exec_time 0.2179s, duration 0.0056s, inner_forward_dur 0.0055s communicated_bytes 0.0000MB
+583th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0062s, inner_forward_dur 0.0061s communicated_bytes 0.0000MB
+584th server forward: bw 15, expected_exec_time 0.2179s, duration 0.0055s, inner_forward_dur 0.0054s communicated_bytes 0.0000MB
+585th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0022s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+586th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0023s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+587th server forward: bw 16, expected_exec_time 0.2179s, duration 0.0035s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+588th server forward: bw 13, expected_exec_time 0.2179s, duration 0.0061s, inner_forward_dur 0.0060s communicated_bytes 0.0000MB
+Traceback (most recent call last):
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/src.py", line 159, in start_server
+    if not server_forward():
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/src.py", line 500, in server_forward
+    idx = sock.receive_message()
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/bm_socket.py", line 196, in receive_message
+    msg = self.recv_queue.get(timeout=0.5)
+  File "<string>", line 2, in get
+  File "/usr/lib/python3.8/multiprocessing/managers.py", line 835, in _callmethod
+    kind, result = conn.recv()
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 250, in recv
+    buf = self._recv_bytes()
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 414, in _recv_bytes
+    buf = self._recv(4)
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 379, in _recv
+    chunk = read(handle, remaining)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/src.py", line 162, in start_server
+    sock.stop()
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/bm_socket.py", line 178, in stop
+    time.sleep(1.)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "start_server.py", line 17, in <module>
+    PCI.start_server(bandwidth_file_path=bandwidth_file_path)
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/src.py", line 165, in start_server
+    sock.stop()
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/bm_socket.py", line 178, in stop
+    time.sleep(1.)
+KeyboardInterrupt
+Error in atexit._run_exitfuncs:
+Traceback (most recent call last):
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/bm_socket.py", line 178, in stop
+    time.sleep(1.)
+KeyboardInterrupt
+Error in atexit._run_exitfuncs:
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/subprocess.py", line 1083, in wait
+    return self._wait(timeout=timeout)
+  File "/usr/lib/python3.8/subprocess.py", line 1816, in _wait
+    time.sleep(delay)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/limit_bandwidth.py", line 37, in stop_process
+    process.wait(timeout=5)  # Wait for clean exit
+  File "/usr/lib/python3.8/subprocess.py", line 1096, in wait
+    self._wait(timeout=sigint_timeout)
+  File "/usr/lib/python3.8/subprocess.py", line 1816, in _wait
+    time.sleep(delay)
+KeyboardInterrupt
+Stopping background process...

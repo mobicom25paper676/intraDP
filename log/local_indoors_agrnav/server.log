@@ -1,0 +1,411 @@
+Configuring torch to use deterministic behaviors.
+parallel approach select
+constraint_latency False
+starting ParallelCollaborativeInference server on 0.0.0.0:12345
+server for client: model SCONet_0M initial complete.
+server: start profile forward
+server: recv init input from client
+Input size 2.0004MB
+Forwarding for 0(+10 warmup and 10 repeat) times for initialization.
+Forward of the original model takes average 0.0552s.
+pickle.dumps size to time poly: 
+           2
+2.719e-18 x + 7.415e-10 x + 0.0002989
+pickle.loads size to time poly: 
+           2
+2.263e-18 x + 6.521e-10 x + 2.977e-05
+Output size 2.0004MB
+Hooked forward takes average 0.0553s.
+Using torch.profiler for op profile
+
+Warming up for 10 runs...
+
+Measuring per operator execution time for 10 runs...
+
+Measuring end to end computation time for 10 runs...
+Operator records (align ops time with factor 0.9917): 
+0 _start: input_from: [], output_to: [1], output_shapes: [torch.Size([1, 1, 256, 32, 256])], local dim: 4, masked: False, align_shape: False, :0 excluded: False ops_time: 0.00ms;  accu_time 0.0000s
+1 type: input_from: [0], output_to: [2], output_shapes: [torch.Size([1, 1, 256, 32, 256])], local dim: 4, masked: False, align_shape: False, <string>:73 excluded: False ops_time: 0.00ms;  accu_time 0.0000s
+2 squeeze: input_from: [1], output_to: [3], output_shapes: [torch.Size([1, 256, 32, 256])], local dim: 3, masked: False, align_shape: False, <string>:81 excluded: False ops_time: 0.02ms;  accu_time 0.0000s
+3 permute: input_from: [2], output_to: [4], output_shapes: [torch.Size([1, 32, 256, 256])], local dim: 3, masked: False, align_shape: False, <string>:81 excluded: False ops_time: 0.02ms;  accu_time 0.0000s
+4 conv2d: input_from: [3], output_to: [5], output_shapes: [torch.Size([1, 32, 256, 256])], local dim: 3, masked: False, align_shape: False, <string>:84 excluded: False ops_time: 0.34ms;  accu_time 0.0004s
+5 relu: input_from: [4], output_to: [6], output_shapes: [torch.Size([1, 32, 256, 256])], local dim: 3, masked: False, align_shape: False, <string>:84 excluded: False ops_time: 0.03ms;  accu_time 0.0004s
+6 conv2d: input_from: [5], output_to: [7], output_shapes: [torch.Size([1, 32, 256, 256])], local dim: 3, masked: False, align_shape: False, <string>:84 excluded: False ops_time: 0.27ms;  accu_time 0.0007s
+7 relu: input_from: [6], output_to: [8, 38], output_shapes: [torch.Size([1, 32, 256, 256])], local dim: 3, masked: False, align_shape: False, <string>:84 excluded: False ops_time: 0.03ms;  accu_time 0.0007s
+8 max_pool2d: input_from: [7], output_to: [9], output_shapes: [torch.Size([1, 32, 128, 128])], local dim: 3, masked: True, align_shape: False, <string>:85 excluded: False ops_time: 0.03ms;  accu_time 0.0007s
+9 conv2d: input_from: [8], output_to: [10], output_shapes: [torch.Size([1, 48, 128, 128])], local dim: 3, masked: True, align_shape: False, <string>:85 excluded: False ops_time: 0.08ms;  accu_time 0.0008s
+10 relu: input_from: [9], output_to: [11], output_shapes: [torch.Size([1, 48, 128, 128])], local dim: 3, masked: True, align_shape: False, <string>:85 excluded: False ops_time: 0.01ms;  accu_time 0.0008s
+11 conv2d: input_from: [10], output_to: [12], output_shapes: [torch.Size([1, 48, 128, 128])], local dim: 3, masked: True, align_shape: False, <string>:85 excluded: False ops_time: 0.11ms;  accu_time 0.0009s
+12 relu: input_from: [11], output_to: [13, 31], output_shapes: [torch.Size([1, 48, 128, 128])], local dim: 3, masked: True, align_shape: False, <string>:85 excluded: False ops_time: 0.01ms;  accu_time 0.0009s
+13 max_pool2d: input_from: [12], output_to: [14], output_shapes: [torch.Size([1, 48, 64, 64])], local dim: 3, masked: True, align_shape: False, <string>:86 excluded: False ops_time: 0.01ms;  accu_time 0.0010s
+14 conv2d: input_from: [13], output_to: [15], output_shapes: [torch.Size([1, 64, 64, 64])], local dim: 3, masked: True, align_shape: False, <string>:86 excluded: False ops_time: 0.04ms;  accu_time 0.0010s
+15 relu: input_from: [14], output_to: [16], output_shapes: [torch.Size([1, 64, 64, 64])], local dim: 3, masked: True, align_shape: False, <string>:86 excluded: False ops_time: 0.00ms;  accu_time 0.0010s
+16 conv2d: input_from: [15], output_to: [17], output_shapes: [torch.Size([1, 64, 64, 64])], local dim: 3, masked: True, align_shape: False, <string>:86 excluded: False ops_time: 0.05ms;  accu_time 0.0010s
+17 relu: input_from: [16], output_to: [18, 25], output_shapes: [torch.Size([1, 64, 64, 64])], local dim: 3, masked: True, align_shape: False, <string>:86 excluded: False ops_time: 0.00ms;  accu_time 0.0011s
+18 max_pool2d: input_from: [17], output_to: [19], output_shapes: [torch.Size([1, 64, 32, 32])], local dim: 3, masked: True, align_shape: False, <string>:87 excluded: False ops_time: 0.00ms;  accu_time 0.0011s
+19 conv2d: input_from: [18], output_to: [20], output_shapes: [torch.Size([1, 80, 32, 32])], local dim: 3, masked: True, align_shape: False, <string>:87 excluded: False ops_time: 0.03ms;  accu_time 0.0011s
+20 relu: input_from: [19], output_to: [21], output_shapes: [torch.Size([1, 80, 32, 32])], local dim: 3, masked: True, align_shape: False, <string>:87 excluded: False ops_time: 0.00ms;  accu_time 0.0011s
+21 conv2d: input_from: [20], output_to: [22], output_shapes: [torch.Size([1, 80, 32, 32])], local dim: 3, masked: True, align_shape: False, <string>:87 excluded: False ops_time: 0.03ms;  accu_time 0.0011s
+22 relu: input_from: [21], output_to: [23], output_shapes: [torch.Size([1, 80, 32, 32])], local dim: 3, masked: True, align_shape: False, <string>:87 excluded: False ops_time: 0.02ms;  accu_time 0.0011s
+23 conv2d: input_from: [22], output_to: [24, 30, 37], output_shapes: [torch.Size([1, 4, 32, 32])], local dim: 3, masked: True, align_shape: False, <string>:91 excluded: False ops_time: 0.07ms;  accu_time 0.0012s
+24 conv_transpose2d: input_from: [23], output_to: [25], output_shapes: [torch.Size([1, 4, 64, 64])], local dim: 3, masked: True, align_shape: False, <string>:92 excluded: False ops_time: 0.07ms;  accu_time 0.0013s
+25 cat: input_from: [24, 17], output_to: [26], output_shapes: [torch.Size([1, 68, 64, 64])], local dim: 3, masked: True, align_shape: False, <string>:97 excluded: False ops_time: 0.03ms;  accu_time 0.0013s
+26 conv2d: input_from: [25], output_to: [27], output_shapes: [torch.Size([1, 64, 64, 64])], local dim: 3, masked: True, align_shape: False, <string>:98 excluded: False ops_time: 0.09ms;  accu_time 0.0014s
+27 relu: input_from: [26], output_to: [28], output_shapes: [torch.Size([1, 64, 64, 64])], local dim: 3, masked: True, align_shape: False, <string>:98 excluded: False ops_time: 0.02ms;  accu_time 0.0014s
+28 conv2d: input_from: [27], output_to: [29, 36], output_shapes: [torch.Size([1, 8, 64, 64])], local dim: 3, masked: True, align_shape: False, <string>:99 excluded: False ops_time: 0.08ms;  accu_time 0.0015s
+29 conv_transpose2d: input_from: [28], output_to: [31], output_shapes: [torch.Size([1, 8, 128, 128])], local dim: 3, masked: True, align_shape: False, <string>:100 excluded: False ops_time: 0.07ms;  accu_time 0.0016s
+30 conv_transpose2d: input_from: [23], output_to: [31], output_shapes: [torch.Size([1, 4, 128, 128])], local dim: 3, masked: True, align_shape: False, <string>:105 excluded: False ops_time: 0.06ms;  accu_time 0.0016s
+31 cat: input_from: [29, 12, 30], output_to: [32], output_shapes: [torch.Size([1, 60, 128, 128])], local dim: 3, masked: True, align_shape: False, <string>:105 excluded: False ops_time: 0.04ms;  accu_time 0.0017s
+32 conv2d: input_from: [31], output_to: [33], output_shapes: [torch.Size([1, 48, 128, 128])], local dim: 3, masked: True, align_shape: False, <string>:106 excluded: False ops_time: 0.17ms;  accu_time 0.0018s
+33 relu: input_from: [32], output_to: [34], output_shapes: [torch.Size([1, 48, 128, 128])], local dim: 3, masked: True, align_shape: False, <string>:106 excluded: False ops_time: 0.01ms;  accu_time 0.0019s
+34 conv2d: input_from: [33], output_to: [35], output_shapes: [torch.Size([1, 16, 128, 128])], local dim: 3, masked: True, align_shape: False, <string>:107 excluded: False ops_time: 0.10ms;  accu_time 0.0020s
+35 conv_transpose2d: input_from: [34], output_to: [38], output_shapes: [torch.Size([1, 16, 256, 256])], local dim: 3, masked: True, align_shape: False, <string>:111 excluded: False ops_time: 0.23ms;  accu_time 0.0022s
+36 conv_transpose2d: input_from: [28], output_to: [38], output_shapes: [torch.Size([1, 8, 256, 256])], local dim: 3, masked: True, align_shape: False, <string>:112 excluded: False ops_time: 0.04ms;  accu_time 0.0022s
+37 conv_transpose2d: input_from: [23], output_to: [38], output_shapes: [torch.Size([1, 4, 256, 256])], local dim: 3, masked: False, align_shape: False, <string>:112 excluded: False ops_time: 0.03ms;  accu_time 0.0023s
+38 cat: input_from: [35, 7, 36, 37], output_to: [39], output_shapes: [torch.Size([1, 60, 256, 256])], local dim: 3, masked: False, align_shape: False, <string>:112 excluded: False ops_time: 0.05ms;  accu_time 0.0023s
+39 conv2d: input_from: [38], output_to: [40], output_shapes: [torch.Size([1, 32, 256, 256])], local dim: 3, masked: False, align_shape: False, <string>:113 excluded: False ops_time: 0.47ms;  accu_time 0.0028s
+40 relu: input_from: [39], output_to: [41], output_shapes: [torch.Size([1, 32, 256, 256])], local dim: 3, masked: False, align_shape: False, <string>:113 excluded: False ops_time: 0.03ms;  accu_time 0.0028s
+41 __getitem__: input_from: [40], output_to: [42], output_shapes: [torch.Size([1, 1, 32, 256, 256])], local dim: 3, masked: False, align_shape: False, <string>:28 excluded: False ops_time: 0.00ms;  accu_time 0.0028s
+42 conv3d: input_from: [41], output_to: [43, 44, 51, 59, 67], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: False, align_shape: False, <string>:31 excluded: False ops_time: 1.02ms;  accu_time 0.0038s
+43 relu: input_from: [42], output_to: [44, 51, 59, 67], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:31 excluded: False ops_time: 0.20ms;  accu_time 0.0040s
+44 conv3d: input_from: [42, 43], output_to: [45, 46], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:33 excluded: False ops_time: 5.80ms;  accu_time 0.0098s
+45 dim: input_from: [44], output_to: [], output_shapes: [], local dim: None, masked: True, align_shape: False, <string>:33 excluded: True ops_time: 0.00ms;  accu_time 0.0098s
+46 batch_norm: input_from: [44], output_to: [47, 48], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:33 excluded: False ops_time: 1.29ms;  accu_time 0.0111s
+47 relu: input_from: [46], output_to: [48], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:33 excluded: False ops_time: 0.20ms;  accu_time 0.0113s
+48 conv3d: input_from: [46, 47], output_to: [49, 50], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:33 excluded: False ops_time: 5.80ms;  accu_time 0.0171s
+49 dim: input_from: [48], output_to: [], output_shapes: [], local dim: None, masked: True, align_shape: False, <string>:33 excluded: True ops_time: 0.00ms;  accu_time 0.0171s
+50 batch_norm: input_from: [48], output_to: [58, 66, 67], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:33 excluded: False ops_time: 1.29ms;  accu_time 0.0184s
+51 conv3d: input_from: [42, 43], output_to: [52, 53], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:35 excluded: False ops_time: 5.91ms;  accu_time 0.0243s
+52 dim: input_from: [51], output_to: [], output_shapes: [], local dim: None, masked: True, align_shape: False, <string>:35 excluded: True ops_time: 0.00ms;  accu_time 0.0243s
+53 batch_norm: input_from: [51], output_to: [54, 55], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:35 excluded: False ops_time: 1.29ms;  accu_time 0.0256s
+54 relu: input_from: [53], output_to: [55], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:35 excluded: False ops_time: 0.20ms;  accu_time 0.0258s
+55 conv3d: input_from: [53, 54], output_to: [56, 57], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:35 excluded: False ops_time: 5.92ms;  accu_time 0.0317s
+56 dim: input_from: [55], output_to: [], output_shapes: [], local dim: None, masked: True, align_shape: False, <string>:35 excluded: True ops_time: 0.00ms;  accu_time 0.0317s
+57 batch_norm: input_from: [55], output_to: [58], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:35 excluded: False ops_time: 1.29ms;  accu_time 0.0330s
+58 add_: input_from: [50, 57], output_to: [66, 67], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:35 excluded: False ops_time: 0.29ms;  accu_time 0.0333s
+59 conv3d: input_from: [42, 43], output_to: [60, 61], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:35 excluded: False ops_time: 5.90ms;  accu_time 0.0392s
+60 dim: input_from: [59], output_to: [], output_shapes: [], local dim: None, masked: True, align_shape: False, <string>:35 excluded: True ops_time: 0.00ms;  accu_time 0.0392s
+61 batch_norm: input_from: [59], output_to: [62, 63], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:35 excluded: False ops_time: 1.29ms;  accu_time 0.0405s
+62 relu: input_from: [61], output_to: [63], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:35 excluded: False ops_time: 0.20ms;  accu_time 0.0407s
+63 conv3d: input_from: [61, 62], output_to: [64, 65], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:35 excluded: False ops_time: 5.90ms;  accu_time 0.0466s
+64 dim: input_from: [63], output_to: [], output_shapes: [], local dim: None, masked: True, align_shape: False, <string>:35 excluded: True ops_time: 0.00ms;  accu_time 0.0466s
+65 batch_norm: input_from: [63], output_to: [66], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: True, align_shape: False, <string>:35 excluded: False ops_time: 1.29ms;  accu_time 0.0479s
+66 add_: input_from: [50, 58, 65], output_to: [67], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: False, align_shape: False, <string>:35 excluded: False ops_time: 0.29ms;  accu_time 0.0482s
+67 add: input_from: [50, 58, 66, 42, 43], output_to: [68, 69], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: False, align_shape: False, <string>:36 excluded: False ops_time: 0.29ms;  accu_time 0.0485s
+68 relu: input_from: [67], output_to: [69], output_shapes: [torch.Size([1, 8, 32, 256, 256])], local dim: 4, masked: False, align_shape: False, <string>:36 excluded: False ops_time: 0.20ms;  accu_time 0.0487s
+69 conv3d: input_from: [67, 68], output_to: [70], output_shapes: [torch.Size([1, 20, 32, 256, 256])], local dim: 4, masked: False, align_shape: False, <string>:38 excluded: False ops_time: 6.25ms;  accu_time 0.0549s
+70 permute: input_from: [69], output_to: [71], output_shapes: [torch.Size([1, 20, 256, 32, 256])], local dim: 4, masked: False, align_shape: False, <string>:117 excluded: False ops_time: 0.00ms;  accu_time 0.0549s
+71 argmax: input_from: [70], output_to: [72], output_shapes: [torch.Size([1, 256, 32, 256])], local dim: 3, masked: False, align_shape: False, <string>:75 excluded: False ops_time: 0.27ms;  accu_time 0.0552s
+72 type: input_from: [71], output_to: [73], output_shapes: [torch.Size([1, 256, 32, 256])], local dim: 3, masked: False, align_shape: False, <string>:75 excluded: False ops_time: 0.03ms;  accu_time 0.0552s
+73 _end: input_from: [72], output_to: [], output_shapes: [torch.Size([1, 256, 32, 256])], local dim: None, masked: False, align_shape: False, ours:0 excluded: False ops_time: 0.00ms;  accu_time 0.0552s
+total 74 ops (filtered from 74 ops); time 0.0552s (aligned by 0.9917
+
+server: init forward complete.
+server: profile forward complete
+Server computation time: 0.0552s; client computaiton time: 0.7777s
+
+Parallel approach: local. Adding hooks for each bw...
+bw 0:  Skip computation from 0 to 73 || 
+bw 1:  Skip computation from 0 to 73 || 
+bw 2:  Skip computation from 0 to 73 || 
+bw 3:  Skip computation from 0 to 73 || 
+bw 4:  Skip computation from 0 to 73 || 
+bw 5:  Skip computation from 0 to 73 || 
+bw 6:  Skip computation from 0 to 73 || 
+bw 7:  Skip computation from 0 to 73 || 
+bw 8:  Skip computation from 0 to 73 || 
+bw 9:  Skip computation from 0 to 73 || 
+bw 10:  Skip computation from 0 to 73 || 
+bw 11:  Skip computation from 0 to 73 || 
+bw 12:  Skip computation from 0 to 73 || 
+bw 13:  Skip computation from 0 to 73 || 
+bw 14:  Skip computation from 0 to 73 || 
+bw 15:  Skip computation from 0 to 73 || 
+bw 16:  Skip computation from 0 to 73 || 
+bw 17:  Skip computation from 0 to 73 || 
+bw 18:  Skip computation from 0 to 73 || 
+bw 19:  Skip computation from 0 to 73 || 
+bw 20:  Skip computation from 0 to 73 || 
+bw 21:  Skip computation from 0 to 73 || 
+bw 22:  Skip computation from 0 to 73 || 
+bw 23:  Skip computation from 0 to 73 || 
+bw 24:  Skip computation from 0 to 73 || 
+bw 25:  Skip computation from 0 to 73 || 
+bw 26:  Skip computation from 0 to 73 || 
+bw 27:  Skip computation from 0 to 73 || 
+bw 28:  Skip computation from 0 to 73 || 
+bw 29:  Skip computation from 0 to 73 || 
+Starting background process: bash /home/user/project/ParallelCollaborativeInference/exp_utils/apply_tc.sh /home/user/project/ParallelCollaborativeInference/exp_utils/indoors.txt
+bandwidth 11.147MBps
+bandwidth 13.099375MBps
+All init complete.
+
+0th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0013s, inner_forward_dur 0.0012s communicated_bytes 0.0000MB
+1th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0019s, inner_forward_dur 0.0019s communicated_bytes 0.0000MB
+2th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0031s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+3th server forward: bw 14, expected_exec_time 0.7777s, duration 0.0013s, inner_forward_dur 0.0013s communicated_bytes 0.0000MB
+4th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0011s, inner_forward_dur 0.0010s communicated_bytes 0.0000MB
+5th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0019s, inner_forward_dur 0.0019s communicated_bytes 0.0000MB
+6th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+7th server forward: bw 9, expected_exec_time 0.7777s, duration 0.0007s, inner_forward_dur 0.0007s communicated_bytes 0.0000MB
+8th server forward: bw 9, expected_exec_time 0.7777s, duration 0.0013s, inner_forward_dur 0.0012s communicated_bytes 0.0000MB
+9th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0008s, inner_forward_dur 0.0007s communicated_bytes 0.0000MB
+10th server forward: bw 14, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+11th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+12th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+13th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+14th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0020s, inner_forward_dur 0.0020s communicated_bytes 0.0000MB
+15th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+16th server forward: bw 9, expected_exec_time 0.7777s, duration 0.0033s, inner_forward_dur 0.0031s communicated_bytes 0.0000MB
+17th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0008s, inner_forward_dur 0.0007s communicated_bytes 0.0000MB
+18th server forward: bw 16, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+19th server forward: bw 9, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+20th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+21th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+22th server forward: bw 9, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+23th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+24th server forward: bw 14, expected_exec_time 0.7777s, duration 0.0025s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+25th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0018s, inner_forward_dur 0.0017s communicated_bytes 0.0000MB
+26th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0016s communicated_bytes 0.0000MB
+27th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+28th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0013s, inner_forward_dur 0.0013s communicated_bytes 0.0000MB
+29th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+30th server forward: bw 14, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0016s communicated_bytes 0.0000MB
+31th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0017s, inner_forward_dur 0.0016s communicated_bytes 0.0000MB
+32th server forward: bw 9, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+33th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0045s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+34th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0016s communicated_bytes 0.0000MB
+35th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0045s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+36th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0045s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+37th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0045s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+38th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0008s, inner_forward_dur 0.0007s communicated_bytes 0.0000MB
+39th server forward: bw 14, expected_exec_time 0.7777s, duration 0.0045s, inner_forward_dur 0.0044s communicated_bytes 0.0000MB
+40th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0044s, inner_forward_dur 0.0043s communicated_bytes 0.0000MB
+41th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+42th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+43th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+44th server forward: bw 16, expected_exec_time 0.7777s, duration 0.0017s, inner_forward_dur 0.0017s communicated_bytes 0.0000MB
+45th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0007s, inner_forward_dur 0.0007s communicated_bytes 0.0000MB
+46th server forward: bw 16, expected_exec_time 0.7777s, duration 0.0033s, inner_forward_dur 0.0032s communicated_bytes 0.0000MB
+47th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0043s, inner_forward_dur 0.0042s communicated_bytes 0.0000MB
+48th server forward: bw 14, expected_exec_time 0.7777s, duration 0.0008s, inner_forward_dur 0.0008s communicated_bytes 0.0000MB
+49th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+50th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0011s, inner_forward_dur 0.0010s communicated_bytes 0.0000MB
+51th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0023s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+52th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+53th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+54th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0019s, inner_forward_dur 0.0018s communicated_bytes 0.0000MB
+55th server forward: bw 16, expected_exec_time 0.7777s, duration 0.0007s, inner_forward_dur 0.0007s communicated_bytes 0.0000MB
+56th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0015s, inner_forward_dur 0.0015s communicated_bytes 0.0000MB
+57th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+58th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0013s, inner_forward_dur 0.0013s communicated_bytes 0.0000MB
+59th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+60th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0013s, inner_forward_dur 0.0013s communicated_bytes 0.0000MB
+61th server forward: bw 14, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0016s communicated_bytes 0.0000MB
+62th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0015s, inner_forward_dur 0.0015s communicated_bytes 0.0000MB
+63th server forward: bw 9, expected_exec_time 0.7777s, duration 0.0032s, inner_forward_dur 0.0032s communicated_bytes 0.0000MB
+64th server forward: bw 9, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+65th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0008s, inner_forward_dur 0.0007s communicated_bytes 0.0000MB
+66th server forward: bw 9, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+67th server forward: bw 14, expected_exec_time 0.7777s, duration 0.0028s, inner_forward_dur 0.0027s communicated_bytes 0.0000MB
+68th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+69th server forward: bw 16, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+70th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0028s, inner_forward_dur 0.0027s communicated_bytes 0.0000MB
+71th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+72th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0026s, inner_forward_dur 0.0025s communicated_bytes 0.0000MB
+73th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+74th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+75th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+76th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+77th server forward: bw 16, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+78th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0025s, inner_forward_dur 0.0025s communicated_bytes 0.0000MB
+79th server forward: bw 16, expected_exec_time 0.7777s, duration 0.0025s, inner_forward_dur 0.0024s communicated_bytes 0.0000MB
+80th server forward: bw 14, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+81th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0007s, inner_forward_dur 0.0007s communicated_bytes 0.0000MB
+82th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+83th server forward: bw 9, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+84th server forward: bw 16, expected_exec_time 0.7777s, duration 0.0018s, inner_forward_dur 0.0017s communicated_bytes 0.0000MB
+85th server forward: bw 16, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0016s communicated_bytes 0.0000MB
+86th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+87th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0017s, inner_forward_dur 0.0017s communicated_bytes 0.0000MB
+88th server forward: bw 8, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+89th server forward: bw 9, expected_exec_time 0.7777s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+90th server forward: bw 8, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+91th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0009s, inner_forward_dur 0.0008s communicated_bytes 0.0000MB
+92th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+93th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0009s, inner_forward_dur 0.0009s communicated_bytes 0.0000MB
+94th server forward: bw 8, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+95th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0010s, inner_forward_dur 0.0009s communicated_bytes 0.0000MB
+96th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0016s communicated_bytes 0.0000MB
+97th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0011s, inner_forward_dur 0.0011s communicated_bytes 0.0000MB
+98th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+99th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0010s, inner_forward_dur 0.0009s communicated_bytes 0.0000MB
+100th server forward: bw 8, expected_exec_time 0.7777s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+101th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0013s, inner_forward_dur 0.0013s communicated_bytes 0.0000MB
+102th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+103th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0016s communicated_bytes 0.0000MB
+104th server forward: bw 8, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+105th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0022s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+106th server forward: bw 8, expected_exec_time 0.7777s, duration 0.0013s, inner_forward_dur 0.0012s communicated_bytes 0.0000MB
+107th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0016s communicated_bytes 0.0000MB
+108th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+109th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0012s, inner_forward_dur 0.0011s communicated_bytes 0.0000MB
+110th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0015s communicated_bytes 0.0000MB
+111th server forward: bw 9, expected_exec_time 0.7777s, duration 0.0008s, inner_forward_dur 0.0007s communicated_bytes 0.0000MB
+112th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+113th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0016s communicated_bytes 0.0000MB
+114th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0016s communicated_bytes 0.0000MB
+115th server forward: bw 8, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+116th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0021s, inner_forward_dur 0.0019s communicated_bytes 0.0000MB
+117th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0016s communicated_bytes 0.0000MB
+118th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0016s communicated_bytes 0.0000MB
+119th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+120th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0010s, inner_forward_dur 0.0010s communicated_bytes 0.0000MB
+121th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0015s communicated_bytes 0.0000MB
+122th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0015s communicated_bytes 0.0000MB
+123th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+124th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0035s, inner_forward_dur 0.0034s communicated_bytes 0.0000MB
+125th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+Process BandwidthMonitor:
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/estimate_bandwidth.py", line 88, in bandwidth_monitor
+    time.sleep(interval)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/multiprocessing/process.py", line 318, in _bootstrap
+    util._exit_function()
+  File "/usr/lib/python3.8/multiprocessing/util.py", line 334, in _exit_function
+    _run_finalizers(0)
+  File "/usr/lib/python3.8/multiprocessing/util.py", line 300, in _run_finalizers
+    finalizer()
+  File "/usr/lib/python3.8/multiprocessing/util.py", line 224, in __call__
+    res = self._callback(*self._args, **self._kwargs)
+  File "/usr/lib/python3.8/multiprocessing/managers.py", line 888, in _decref
+    dispatch(conn, None, 'decref', (token.id,))
+  File "/usr/lib/python3.8/multiprocessing/managers.py", line 88, in dispatch
+    kind, result = c.recv()
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 250, in recv
+    buf = self._recv_bytes()
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 414, in _recv_bytes
+    buf = self._recv(4)
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 379, in _recv
+    chunk = read(handle, remaining)
+KeyboardInterrupt
+126th server forward: bw 10, expected_exec_time 0.7777s, duration 0.0009s, inner_forward_dur 0.0008s communicated_bytes 0.0000MB
+127th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+128th server forward: bw 8, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+129th server forward: bw 8, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+130th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+131th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+132th server forward: bw 9, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+133th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0015s, inner_forward_dur 0.0015s communicated_bytes 0.0000MB
+134th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+135th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+136th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+137th server forward: bw 6, expected_exec_time 0.7777s, duration 0.0011s, inner_forward_dur 0.0011s communicated_bytes 0.0000MB
+138th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0008s, inner_forward_dur 0.0007s communicated_bytes 0.0000MB
+139th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+140th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0008s, inner_forward_dur 0.0008s communicated_bytes 0.0000MB
+141th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+142th server forward: bw 18, expected_exec_time 0.7777s, duration 0.0009s, inner_forward_dur 0.0009s communicated_bytes 0.0000MB
+143th server forward: bw 19, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+144th server forward: bw 17, expected_exec_time 0.7777s, duration 0.0011s, inner_forward_dur 0.0010s communicated_bytes 0.0000MB
+145th server forward: bw 17, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0015s communicated_bytes 0.0000MB
+146th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0011s, inner_forward_dur 0.0011s communicated_bytes 0.0000MB
+147th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+148th server forward: bw 17, expected_exec_time 0.7777s, duration 0.0007s, inner_forward_dur 0.0006s communicated_bytes 0.0000MB
+149th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0008s, inner_forward_dur 0.0008s communicated_bytes 0.0000MB
+150th server forward: bw 17, expected_exec_time 0.7777s, duration 0.0019s, inner_forward_dur 0.0018s communicated_bytes 0.0000MB
+151th server forward: bw 19, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0015s communicated_bytes 0.0000MB
+152th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+153th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0015s communicated_bytes 0.0000MB
+154th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0007s, inner_forward_dur 0.0007s communicated_bytes 0.0000MB
+155th server forward: bw 14, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+156th server forward: bw 16, expected_exec_time 0.7777s, duration 0.0008s, inner_forward_dur 0.0008s communicated_bytes 0.0000MB
+157th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+158th server forward: bw 12, expected_exec_time 0.7777s, duration 0.0008s, inner_forward_dur 0.0007s communicated_bytes 0.0000MB
+159th server forward: bw 14, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+160th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0007s, inner_forward_dur 0.0007s communicated_bytes 0.0000MB
+161th server forward: bw 17, expected_exec_time 0.7777s, duration 0.0023s, inner_forward_dur 0.0022s communicated_bytes 0.0000MB
+162th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0012s, inner_forward_dur 0.0011s communicated_bytes 0.0000MB
+163th server forward: bw 13, expected_exec_time 0.7777s, duration 0.0018s, inner_forward_dur 0.0018s communicated_bytes 0.0000MB
+164th server forward: bw 19, expected_exec_time 0.7777s, duration 0.0007s, inner_forward_dur 0.0006s communicated_bytes 0.0000MB
+165th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0016s, inner_forward_dur 0.0015s communicated_bytes 0.0000MB
+166th server forward: bw 18, expected_exec_time 0.7777s, duration 0.0007s, inner_forward_dur 0.0006s communicated_bytes 0.0000MB
+167th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0024s, inner_forward_dur 0.0023s communicated_bytes 0.0000MB
+168th server forward: bw 15, expected_exec_time 0.7777s, duration 0.0021s, inner_forward_dur 0.0021s communicated_bytes 0.0000MB
+169th server forward: bw 19, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+170th server forward: bw 16, expected_exec_time 0.7777s, duration 0.0036s, inner_forward_dur 0.0035s communicated_bytes 0.0000MB
+171th server forward: bw 16, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+172th server forward: bw 17, expected_exec_time 0.7777s, duration 0.0019s, inner_forward_dur 0.0018s communicated_bytes 0.0000MB
+173th server forward: bw 16, expected_exec_time 0.7777s, duration 0.0029s, inner_forward_dur 0.0028s communicated_bytes 0.0000MB
+174th server forward: bw 11, expected_exec_time 0.7777s, duration 0.0010s, inner_forward_dur 0.0009s communicated_bytes 0.0000MB
+175th server forward: bw 14, expected_exec_time 0.7777s, duration 0.0030s, inner_forward_dur 0.0029s communicated_bytes 0.0000MB
+Traceback (most recent call last):
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/src.py", line 159, in start_server
+    if not server_forward():
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/src.py", line 500, in server_forward
+    idx = sock.receive_message()
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/bm_socket.py", line 196, in receive_message
+    msg = self.recv_queue.get(timeout=0.5)
+  File "<string>", line 2, in get
+  File "/usr/lib/python3.8/multiprocessing/managers.py", line 835, in _callmethod
+    kind, result = conn.recv()
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 250, in recv
+    buf = self._recv_bytes()
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 414, in _recv_bytes
+    buf = self._recv(4)
+  File "/usr/lib/python3.8/multiprocessing/connection.py", line 379, in _recv
+    chunk = read(handle, remaining)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/src.py", line 162, in start_server
+    sock.stop()
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/bm_socket.py", line 178, in stop
+    time.sleep(1.)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "start_server.py", line 17, in <module>
+    PCI.start_server(bandwidth_file_path=bandwidth_file_path)
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/src.py", line 165, in start_server
+    sock.stop()
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/bm_socket.py", line 178, in stop
+    time.sleep(1.)
+KeyboardInterrupt
+Error in atexit._run_exitfuncs:
+Traceback (most recent call last):
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/bm_socket.py", line 178, in stop
+    time.sleep(1.)
+KeyboardInterrupt
+Error in atexit._run_exitfuncs:
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/subprocess.py", line 1083, in wait
+    return self._wait(timeout=timeout)
+  File "/usr/lib/python3.8/subprocess.py", line 1816, in _wait
+    time.sleep(delay)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/user/project/ParallelCollaborativeInference/ParallelCollaborativeInference/limit_bandwidth.py", line 37, in stop_process
+    process.wait(timeout=5)  # Wait for clean exit
+  File "/usr/lib/python3.8/subprocess.py", line 1096, in wait
+    self._wait(timeout=sigint_timeout)
+  File "/usr/lib/python3.8/subprocess.py", line 1816, in _wait
+    time.sleep(delay)
+KeyboardInterrupt
+Stopping background process...
