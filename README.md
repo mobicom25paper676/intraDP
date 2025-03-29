@@ -4,7 +4,7 @@ Intra-DP is a high-performance distributed inference system optimized for DNN in
 Intra-DP employs a novel parallel computing technique based on local operators (i.e., operators whose minimum unit input is not the entire input tensor, such as the convolution kernel). 
 By cutting their operations into several independent sub-operations and overlapping the computation and transmission of different sub-operations through parallel execution, Intra-DP significantly mitigates transmission bottlenecks in mobile edge computing, achieving fast and energyefficient inference.
 
-We put Intra-DP to the test on our real-world robot, evaluating its performance in two typical real-world robotic applications: [KAPAO](https://github.com/wmcnally/kapao) and [AGRNav](https://github.com/jmwang0117/AGRNav). Additionally, we assessed Intra-DP's effectiveness on several models implemented in Torchvision (you can find these in `./ros_ws/src/torchvision/scripts/run_torchvision.py`).
+We put Intra-DP to the test on our real-world robot, evaluating its performance in two typical real-world robotic applications: [KAPAO](https://github.com/wmcnally/kapao) and [AGRNav](https://github.com/jmwang0117/AGRNav) (as shown in `kapao-demo.mp4` and `agrnav-demo.mp4`). Additionally, we assessed Intra-DP's effectiveness on several models implemented in Torchvision (you can find these in `./ros_ws/src/torchvision/scripts/run_torchvision.py`).
 
 To make it easier for you to explore and understand our work, we've organized our codebase as follows:
 - The source code for Intra-DP is located in the `intraDP` folder.
